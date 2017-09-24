@@ -53,6 +53,9 @@
     "globals": {
       "hexo": false
     },
+    "rules": {
+      "comma-dangle": 0
+    },
     "overrides": [
       {
         "files": "test/**/*.js",
