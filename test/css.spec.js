@@ -24,7 +24,9 @@ describe('inline assets', () => {
     } = defaults) => {
       const hexo = {
         config: { inline_assets: { enabled } },
-        execFilter: chai.spy((_, text) => new Promise(resolve => resolve(text))),
+        render: {
+          render: chai.spy(({ path }) => new Promise(resolve => resolve(files[path].content))),
+        },
         log: chai.spy.object(['warn']),
         theme_dir: 'theme',
       };
@@ -136,26 +138,18 @@ describe('inline assets', () => {
       });
     });
 
-    it('should invoke hexo execFilter with the correct params', () => {
+    it('should invoke hexo render with the correct params', () => {
       const { hexo, html, cssFilter } = setup();
       return cssFilter.call(hexo, html).then(() => {
-        expect(hexo.execFilter).to.have.been.called.with.exactly(
-          'after_render:css',
-          'body { background-color: red; }',
-          {
-            context: hexo,
-            args: [{
-              path: 'theme/source/css/main.css',
-              text: 'body { background-color: red; }',
-              engine: 'css',
-            }],
-          });
+        expect(hexo.render.render).to.have.been.called.with.exactly({
+          path: 'theme/source/css/main.css',
+        });
       });
     });
 
     it('should warn about filter errors', () => {
       const { hexo, html, cssFilter } = setup();
-      hexo.execFilter = () => new Promise((resolve, reject) => reject(new Error('err')));
+      hexo.render.render = () => new Promise((resolve, reject) => reject(new Error('err')));
       return cssFilter.call(hexo, html).then(() => {
         expect(hexo.log.warn).to.have.been.called();
       });
@@ -163,7 +157,7 @@ describe('inline assets', () => {
 
     it('should return the original string on filter errors', () => {
       const { hexo, html, cssFilter } = setup();
-      hexo.execFilter = () => new Promise((resolve, reject) => reject(new Error('err')));
+      hexo.render.render = () => new Promise((resolve, reject) => reject(new Error('err')));
       const result = cssFilter.call(hexo, html);
       return expect(result).to.eventually.deep.equal(html);
     });
