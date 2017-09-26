@@ -3,4 +3,4 @@ hexo.config.inline_assets = Object.assign({
 }, hexo.config.inline_assets);
 
 hexo.extend.filter.register('after_render:html', require('./lib/css'));
-
+hexo.extend.filter.register('after_render:html', require('./lib/js'));

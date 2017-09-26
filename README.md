@@ -7,7 +7,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/stephencroberts/hexo-filter-inline-assets.svg)](https://coveralls.io/r/stephencroberts/hexo-filter-inline-assets)
 ![](https://img.shields.io/npm/l/hexo-filter-inline-assets.svg)
 
-Hexo filter that inlines CSS in HTML
+Hexo filter that inlines CSS and JS in HTML
 
 ## Installation
 
@@ -29,5 +29,6 @@ path:
 
 ```html
 <link rel="stylesheet" href="css/main.css?__inline=true">
+<script src="myscript.js?__inline=true"></script>
 ```
 
