@@ -217,6 +217,29 @@ describe('inline assets', () => {
       const expectedResult = '<html><body>my custom content template</body></html>';
       return expect(result).to.eventually.deep.equal(expectedResult);
     });
+
+    it('should log to the console when the hexo logger is not available', () => {
+      const { hexo, filter } = setup({
+        files: {
+          'theme/source/main.file': {
+            exists: false,
+            content: 'main content',
+          },
+        },
+      });
+      hexo.log = undefined;
+      global.console.warn = chai.spy();
+      const element1 = '<element src="main.file?__inline=true">';
+      const html = `<html><body>${element1}</body></html>`;
+
+      return filter.call(hexo, {
+        text: html,
+        regex,
+        template: '<inline>{content}</inline>',
+      }).then(() => {
+        expect(console.warn).to.have.been.called();
+      });
+    });
   });
 });
 

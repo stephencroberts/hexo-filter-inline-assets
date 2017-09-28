@@ -7,7 +7,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/stephencroberts/hexo-filter-inline-assets.svg)](https://coveralls.io/r/stephencroberts/hexo-filter-inline-assets)
 ![](https://img.shields.io/npm/l/hexo-filter-inline-assets.svg)
 
-Hexo filter that inlines CSS and JS in HTML
+Hexo filter that inlines images, JS, and CSS in HTML
 
 ## Installation
 
@@ -22,9 +22,17 @@ The filter is enabled by default with the configuration:
 ```
 inline_assets:
   enabled: true
+  limit: 100000
 ```
 
-To mark a file for inlining, just add `?__inline=true` to the end of the file
+### Images
+
+Any images in HTML are inlined if their file size is smaller than the `limit`
+defined in the configuration.
+
+### JS & CSS
+
+To mark a JS or CSS file for inlining, just add `?__inline=true` to the end of the file
 path:
 
 ```html

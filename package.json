@@ -62,12 +62,14 @@
         "files": "test/**/*.js",
         "rules": {
           "no-unused-expressions": 0,
-          "no-underscore-dangle": 0
+          "no-underscore-dangle": 0,
+          "no-console": 0
         }
       }
     ]
   },
   "dependencies": {
-    "hexo-fs": "^0.2.2"
+    "hexo-fs": "^0.2.2",
+    "mime": "^2.0.3"
   }
 }
