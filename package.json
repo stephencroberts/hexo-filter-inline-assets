@@ -1,6 +1,6 @@
 {
   "name": "hexo-filter-inline-assets",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Stephen Roberts <stephenroberts@gmail.com> (http://stephenroberts.io)",
   "license": "MIT",
   "main": "index",
