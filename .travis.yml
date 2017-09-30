@@ -1,9 +1,11 @@
 language: node_js
 node_js:
 - 8
-
 script:
 - yarn lint
 - yarn test
-
 after_success: yarn test:coverage
+notifications:
+  email: false
+  slack:
+    secure: RTblctpnnm0uhNdct3Zo2ggwq2zu/IJURbQij4KB0IGgHrpTX81YrX74+ey8HZUDFQLw5DFNRZGyoyc7mPy2AMowqNIiWsnQY5iJZzp6AFhiG8t6yNDr5sSQ3NKNjER4CyH6cGV8G0B64aJ83GofsL3li+CbFcbiBVu5vdW94COXz0KRsIDvzCTc+yI/hNSz3+NWYTIUPteLuBinCES1xII3eZ7qaEwcFE7dQ5nyB4GH7eFKSwTV5H2oGp6cn2fZkPZfol3PmhffiRRXNGy5CCMMND+j1QeBbnbviDQj+rEaihoV+JfA7bH8G6sv46Y40NrPAl+FKW93ISuqJBRmUdOFyN+w7aB4FTC1fLFRyX2L34frbX9fYiUJCI/OqthVO6IB9AggtSXTSkJmurcLh/ntxNkNbntVDHJmXOL++LSG7NYkZGyKK0onYnkyKP+pAjzddDPKiAPUedt+zzS4w4RkYl9G5Z06oLZYSSobglXCPrG7AgraI6BWaK+70jx28rbFFsywOEb/cXrg3tpARl+V6wC91ypuSDiqMR0OhLmFmpUp+WkP7hYtq5bSOKz/PfuR6D+fsG44ucEMXrRXKrak0OIJS8l9sgaIsqAIfARfkFlc4LSZ1PWa+6mFhAmGb1UI1xR9uiVZvjXbNFZtcV6Irw1Q83I7aOojc8WTL4o=
