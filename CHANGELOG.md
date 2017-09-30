@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Added a CHANGELOG
+- Refactored the filter to be synchronous to work with hexo helpers
 
 ## [1.1.0] - 2017-09-27
 ### Added

@@ -1,9 +1,7 @@
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 const spies = require('chai-spies');
 const mock = require('mock-require');
 
-chai.use(chaiAsPromised);
 chai.use(spies);
 const expect = chai.expect;
 
@@ -27,7 +25,7 @@ describe('inline assets', () => {
       const hexo = {
         config: { inline_assets: { enabled } },
         render: {
-          render: chai.spy(({ path }) => new Promise(resolve => resolve(files[path].content))),
+          renderSync: chai.spy(({ path }) => files[path].content),
         },
         log: chai.spy.object(['warn']),
         theme_dir: 'theme',
@@ -58,7 +56,7 @@ describe('inline assets', () => {
         regex,
         template: '<inline>{content}</inline>',
       });
-      return expect(result).to.eventually.deep.equal(html);
+      expect(result).to.equal(html);
     });
 
     it('should inline files', () => {
@@ -70,7 +68,7 @@ describe('inline assets', () => {
         template: '<inline>{content}</inline>',
       });
       const expectedResult = '<html><body><inline>content</inline></body></html>';
-      return expect(result).to.eventually.deep.equal(expectedResult);
+      expect(result).to.equal(expectedResult);
     });
 
     it('should inline multiple files', () => {
@@ -99,7 +97,7 @@ describe('inline assets', () => {
       const expectedLink1 = '<inline>main content</inline>';
       const expectedLink2 = '<inline>another file content</inline>';
       const expectedResult = `<html><body>${expectedLink1}${expectedLink2}</body></html>`;
-      return expect(result).to.eventually.deep.equal(expectedResult);
+      expect(result).to.equal(expectedResult);
     });
 
     it('should only inline files with the inline flag', () => {
@@ -116,7 +114,7 @@ describe('inline assets', () => {
 
       const expectedLink1 = '<inline>content</inline>';
       const expectedResult = `<html><body>${expectedLink1}${element2}</body></html>`;
-      return expect(result).to.eventually.deep.equal(expectedResult);
+      expect(result).to.equal(expectedResult);
     });
 
     it('should skip files that do not exist', () => {
@@ -144,7 +142,7 @@ describe('inline assets', () => {
 
       const expectedLink2 = '<inline>another file content</inline>';
       const expectedResult = `<html><body>${element1}${expectedLink2}</body></html>`;
-      return expect(result).to.eventually.deep.equal(expectedResult);
+      expect(result).to.equal(expectedResult);
     });
 
     it('should warn about files that do not exist', () => {
@@ -159,44 +157,45 @@ describe('inline assets', () => {
       const element1 = '<element src="main.file?__inline=true">';
       const html = `<html><body>${element1}</body></html>`;
 
-      return filter.call(hexo, {
+      filter.call(hexo, {
         text: html,
         regex,
         template: '<inline>{content}</inline>',
-      }).then(() => {
-        expect(hexo.log.warn).to.have.been.called();
       });
+
+      expect(hexo.log.warn).to.have.been.called();
     });
 
     it('should invoke hexo render with the correct params', () => {
       const { hexo, html, filter } = setup();
 
-      return filter.call(hexo, {
+      filter.call(hexo, {
         text: html,
         regex,
         template: '<inline>{content}</inline>',
-      }).then(() => {
-        expect(hexo.render.render).to.have.been.called.with.exactly({
-          path: 'theme/source/main.file',
-        });
+      });
+
+      expect(hexo.render.renderSync).to.have.been.called.with.exactly({
+        path: 'theme/source/main.file',
       });
     });
 
     it('should warn about filter errors', () => {
       const { hexo, html, filter } = setup();
-      hexo.render.render = () => new Promise((resolve, reject) => reject(new Error('err')));
-      return filter.call(hexo, {
+      hexo.render.renderSync = () => { throw new Error('err'); };
+
+      filter.call(hexo, {
         text: html,
         regex,
         template: '<inline>{content}</inline>',
-      }).then(() => {
-        expect(hexo.log.warn).to.have.been.called();
       });
+
+      expect(hexo.log.warn).to.have.been.called();
     });
 
     it('should return the original string on filter errors', () => {
       const { hexo, html, filter } = setup();
-      hexo.render.render = () => new Promise((resolve, reject) => reject(new Error('err')));
+      hexo.render.renderSync = () => { throw new Error('err'); };
 
       const result = filter.call(hexo, {
         text: html,
@@ -204,7 +203,7 @@ describe('inline assets', () => {
         template: '<inline>{content}</inline>',
       });
 
-      return expect(result).to.eventually.deep.equal(html);
+      expect(result).to.equal(html);
     });
 
     it('should use a template for inline content', () => {
@@ -215,7 +214,7 @@ describe('inline assets', () => {
         template: 'my custom {content} template',
       });
       const expectedResult = '<html><body>my custom content template</body></html>';
-      return expect(result).to.eventually.deep.equal(expectedResult);
+      expect(result).to.equal(expectedResult);
     });
 
     it('should log to the console when the hexo logger is not available', () => {
@@ -232,13 +231,13 @@ describe('inline assets', () => {
       const element1 = '<element src="main.file?__inline=true">';
       const html = `<html><body>${element1}</body></html>`;
 
-      return filter.call(hexo, {
+      filter.call(hexo, {
         text: html,
         regex,
         template: '<inline>{content}</inline>',
-      }).then(() => {
-        expect(console.warn).to.have.been.called();
       });
+
+      expect(console.warn).to.have.been.called();
     });
   });
 });
