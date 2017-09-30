@@ -128,4 +128,13 @@ describe('inline images', () => {
     inlineImages.call(hexo, html);
     expect(console.warn).to.have.been.called();
   });
+
+  it('should skip data images', () => {
+    const { hexo, html, inlineImages } = setup({
+      html: '<img src="data:image/jpg;base64,awef" />',
+    });
+    const newHtml = inlineImages.call(hexo, html);
+    expect(html).to.equal(newHtml);
+    expect(hexo.log.warn).to.not.have.been.called();
+  });
 });
