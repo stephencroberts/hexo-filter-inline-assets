@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.2.0] - 2017-09-29
 ### Added
 - Added a CHANGELOG
 - Refactored the filter to be synchronous to work with hexo helpers
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added support for inlining CSS
 - Added support for inliining JavaScript
 
-[Unreleased]: https://github.com/stephencroberts/hexo-filter-inline-assets/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/stephencroberts/hexo-filter-inline-assets/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/stephencroberts/hexo-filter-inline-assets/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/stephencroberts/hexo-filter-inline-assets/compare/v1.0.0...v1.1.0
 
