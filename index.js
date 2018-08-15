@@ -6,3 +6,4 @@ hexo.config.inline_assets = Object.assign({
 hexo.extend.filter.register('after_render:html', require('./lib/css'));
 hexo.extend.filter.register('after_render:html', require('./lib/js'));
 hexo.extend.filter.register('after_render:html', require('./lib/images'));
+hexo.extend.filter.register('after_render:css', require('./lib/css-files'));
